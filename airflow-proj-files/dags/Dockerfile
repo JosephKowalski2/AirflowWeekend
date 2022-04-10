@@ -2,10 +2,17 @@ FROM python:3.7-slim-buster
 FROM apache/airflow:latest
 COPY requirements.txt .
 RUN pip install -r requirements.txt
-RUN pip install -U jupyter-core --user
-RUN pip install -U jupyter --user
-RUN chmod -R 775 /home/airflow/.local/share/jupyter
 
+RUN apt-get update -yqq \
+    	&& apt-get upgrade -yqq \
+    	&& apt-get install -yqq --no-install-recommends \
+	apt-utils \
+	build-essential \
+	libffi-dev \
+	libpq-dev \
+	libssl-dev \
+	python3-pandas \
+	python3-numpy
 
 ENV PYTHONPATH="${PYTHONPATH}:/usr/lib/python3/dist-packages"
 
